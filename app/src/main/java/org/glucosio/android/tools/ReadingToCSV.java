@@ -76,7 +76,7 @@ public final class ReadingToCSV {
                     );
 
                     // Concentration | Measured | Date | Time | Notes | Unit of Measurement
-                    if (Constants.Units.MG_DL.equals(um)) {
+                    if (Constants.Units.MG_DL.equals(userMeasurements)) {
                         for (GlucoseReading reading : readings) {
                             writeLine(osw,
                                     this.dateTool.convertRawDate(reading.getCreated()),
