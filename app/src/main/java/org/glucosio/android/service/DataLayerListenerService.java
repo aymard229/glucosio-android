@@ -26,15 +26,14 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 import com.google.firebase.crash.FirebaseCrash;
-
 import org.glucosio.android.R;
 import org.glucosio.android.activity.MainActivity;
 import org.glucosio.android.db.DatabaseHandler;
 import org.glucosio.android.db.GlucoseReading;
+import org.glucosio.android.tools.ReadingTools;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
@@ -66,7 +65,7 @@ public class DataLayerListenerService extends WearableListenerService {
     }
 
     private void addToDatabase(String reading, String readingType) {
-        int glucoseValue = Integer.parseInt(reading);
+        double glucoseValue = ReadingTools.safeParseDouble(reading);
         Calendar cal = Calendar.getInstance();
         DatabaseHandler dB = new DatabaseHandler(this);
         GlucoseReading gReading = new GlucoseReading(glucoseValue, readingType, cal.getTime(), "");

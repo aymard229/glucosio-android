@@ -22,18 +22,17 @@ buildscript {
 
     repositories {
         jcenter()
+        google()
     }
 
     dependencies {
-        // TODO: Please revert to a stable gradle version before releasing on prod
-        // Alpha is required in devel to use Instant Run and speed up development process
-        classpath 'com.android.tools.build:gradle:2.2.2'
-        classpath 'com.google.gms:google-services:3.0.0'
-        classpath 'io.realm:realm-gradle-plugin:1.1.1'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
-        classpath 'org.jacoco:org.jacoco.core:0.7.7.201606060606'
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.google.gms:google-services:3.1.2'
+        classpath 'io.realm:realm-gradle-plugin:4.3.1'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
+        classpath 'org.jacoco:org.jacoco.core:0.7.9'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -41,22 +40,23 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 
-    ext.buildToolsVer = '25.0.0'
+    ext.buildToolsVer = '27.0.1'
 
-    ext.androidSupportVer = '25.0.0'
-    ext.googlePlayServicesVer = '9.4.0'
+    ext.androidSupportVer = '26.1.0'
+    ext.googlePlayServicesVer = '11.6.2'
 
-    ext.butterKnifeVer = '8.0.1'
+    ext.butterKnifeVer = '8.8.1'
 
     ext.junitVer = '4.12'
-    ext.mockitoVer = '1.10.17'
+    ext.mockitoVer = '1.10.19'
     ext.androidAssertJVer = '1.1.1'
-    ext.robolectricVer = '3.0'
+    ext.robolectricVer = '3.6.1'
 
     apply plugin: 'com.github.ben-manes.versions'
 }
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+    gradleVersion = '4.3.1'
 }

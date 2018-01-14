@@ -7,12 +7,13 @@ import org.glucosio.android.presenter.HelloPresenter;
 import org.glucosio.android.tools.LocaleHelper;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 @Ignore
-@RunWith(GlucosioTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21, packageName = "org.glucosio.android")
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = 25)
 public abstract class RobolectricTest {
     protected Analytics getAnalytics() {
         return getTestApplication().getAnalytics();

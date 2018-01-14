@@ -22,6 +22,7 @@ package org.glucosio.android.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -35,8 +36,10 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -45,13 +48,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -60,8 +62,6 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
 import org.glucosio.android.GlucosioApplication;
 import org.glucosio.android.R;
 import org.glucosio.android.adapter.HomePagerAdapter;
@@ -71,10 +71,9 @@ import org.glucosio.android.presenter.ExportPresenter;
 import org.glucosio.android.presenter.MainPresenter;
 import org.glucosio.android.tools.LocaleHelper;
 import org.glucosio.android.view.ExportView;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import java.util.Calendar;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, ExportView {
@@ -105,9 +104,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         initPresenters(application);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
-        tabLayout = (TabLayout) findViewById(R.id.activity_main_tab_layout);
-        viewPager = (ViewPager) findViewById(R.id.activity_main_pager);
+        Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
+        tabLayout = findViewById(R.id.activity_main_tab_layout);
+        viewPager = findViewById(R.id.activity_main_pager);
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -138,8 +137,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             public void onPageSelected(int position) {
                 if (position == 2) {
                     hideFabAnimation();
-                    LinearLayout emptyLayout = (LinearLayout) findViewById(R.id.activity_main_empty_layout);
-                    ViewPager pager = (ViewPager) findViewById(R.id.activity_main_pager);
+                    LinearLayout emptyLayout = findViewById(R.id.activity_main_empty_layout);
+                    ViewPager pager = findViewById(R.id.activity_main_pager);
                     if (pager.getVisibility() == View.GONE) {
                         pager.setVisibility(View.VISIBLE);
                         emptyLayout.setVisibility(View.INVISIBLE);
@@ -156,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
-        FloatingActionButton fabAddReading = (FloatingActionButton) findViewById(R.id.activity_main_fab_add_reading);
+        FloatingActionButton fabAddReading = findViewById(R.id.activity_main_fab_add_reading);
         fabAddReading.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,14 +167,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         bottomSheetAddDialog = new BottomSheetDialog(this);
 
         // Add Nav Drawer
-        final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem().withName(R.string.action_settings).withIcon(R.drawable.ic_settings_grey_24dp).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
-        final PrimaryDrawerItem itemExport = new PrimaryDrawerItem().withName(R.string.sidebar_backup_export).withIcon(R.drawable.ic_backup_grey_24dp).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
-        final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem().withName(R.string.menu_support).withIcon(R.drawable.ic_announcement_grey_24dp).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
-        final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem().withName(R.string.preferences_about_glucosio).withIcon(R.drawable.ic_info_grey_24dp).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
-        final PrimaryDrawerItem itemInvite = new PrimaryDrawerItem().withName(R.string.action_invite).withIcon(R.drawable.ic_face_grey_24dp).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
-        final PrimaryDrawerItem itemDonate = new PrimaryDrawerItem().withName(R.string.about_donate).withIcon(R.drawable.ic_favorite_grey_24dp).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
-        final PrimaryDrawerItem itemA1C = new PrimaryDrawerItem().withName(R.string.activity_converter_title).withIcon(R.drawable.ic_calculator_a1c_grey_24dp).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
-        final PrimaryDrawerItem itemReminders = new PrimaryDrawerItem().withName(R.string.activity_reminders_title).withIcon(R.drawable.ic_alarm_grey_24dp).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
+        final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem().withName(R.string.action_settings).withIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_settings_grey_24dp, null)).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
+        final PrimaryDrawerItem itemExport = new PrimaryDrawerItem().withName(R.string.sidebar_backup_export).withIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_backup_grey_24dp, null)).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
+        final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem().withName(R.string.menu_support).withIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_announcement_grey_24dp, null)).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
+        final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem().withName(R.string.preferences_about_glucosio).withIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_info_grey_24dp, null)).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
+        final PrimaryDrawerItem itemInvite = new PrimaryDrawerItem().withName(R.string.action_invite).withIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_face_grey_24dp, null)).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
+        final PrimaryDrawerItem itemDonate = new PrimaryDrawerItem().withName(R.string.about_donate).withIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_favorite_grey_24dp, null)).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
+        final PrimaryDrawerItem itemA1C = new PrimaryDrawerItem().withName(R.string.activity_converter_title).withIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_calculator_a1c_grey_24dp, null)).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
+        final PrimaryDrawerItem itemReminders = new PrimaryDrawerItem().withName(R.string.activity_reminders_title).withIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_alarm_grey_24dp, null)).withSelectable(false).withTypeface(Typeface.DEFAULT_BOLD);
 
         DrawerBuilder drawerBuilder = new DrawerBuilder()
                 .withActivity(this)
@@ -447,12 +446,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         exportDialog.getWindow().setDimAmount(0.5f);
         exportDialog.show();
 
-        exportDialogDateFrom = (TextView) exportDialog.findViewById(R.id.activity_export_date_from);
-        exportDialogDateTo = (TextView) exportDialog.findViewById(R.id.activity_export_date_to);
-        exportRangeButton = (RadioButton) exportDialog.findViewById(R.id.activity_export_range);
-        final RadioButton exportAllButton = (RadioButton) exportDialog.findViewById(R.id.activity_export_all);
-        final TextView exportButton = (TextView) exportDialog.findViewById(R.id.dialog_export_add);
-        final TextView cancelButton = (TextView) exportDialog.findViewById(R.id.dialog_export_cancel);
+        exportDialogDateFrom = exportDialog.findViewById(R.id.activity_export_date_from);
+        exportDialogDateTo = exportDialog.findViewById(R.id.activity_export_date_to);
+        exportRangeButton = exportDialog.findViewById(R.id.activity_export_range);
+        final RadioButton exportAllButton = exportDialog.findViewById(R.id.activity_export_all);
+        final TextView exportButton = exportDialog.findViewById(R.id.dialog_export_add);
+        final TextView cancelButton = exportDialog.findViewById(R.id.dialog_export_cancel);
 
         exportRangeButton.setChecked(true);
 
@@ -460,14 +459,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             @Override
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
-                DatePickerDialog dpd = DatePickerDialog.newInstance(
+                DatePickerDialog dpd = new DatePickerDialog(
+                        MainActivity.this,
                         MainActivity.this,
                         now.get(Calendar.YEAR),
                         now.get(Calendar.MONTH),
                         now.get(Calendar.DAY_OF_MONTH)
                 );
-                dpd.show(getFragmentManager(), "fromDateDialog");
-                dpd.setMaxDate(now);
+                dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
+                dpd.show();
             }
         });
 
@@ -475,14 +475,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             @Override
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
-                DatePickerDialog dpd = DatePickerDialog.newInstance(
+                DatePickerDialog dpd = new DatePickerDialog(
+                        MainActivity.this,
                         MainActivity.this,
                         now.get(Calendar.YEAR),
                         now.get(Calendar.MONTH),
                         now.get(Calendar.DAY_OF_MONTH)
                 );
-                dpd.show(getFragmentManager(), "toDateDialog");
-                dpd.setMaxDate(now);
+                dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
+                dpd.show();
             }
         });
 
@@ -543,8 +544,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     public void turnOffToolbarScrolling() {
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.activity_main_appbar_layout);
+        Toolbar mToolbar = findViewById(R.id.activity_main_toolbar);
+        AppBarLayout appBarLayout = findViewById(R.id.activity_main_appbar_layout);
 
         //turn off scrolling
         AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
@@ -557,8 +558,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     public void turnOnToolbarScrolling() {
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.activity_main_appbar_layout);
+        Toolbar mToolbar = findViewById(R.id.activity_main_toolbar);
+        AppBarLayout appBarLayout = findViewById(R.id.activity_main_appbar_layout);
 
         //turn on scrolling
         AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
@@ -574,7 +575,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         return (Toolbar) findViewById(R.id.activity_main_toolbar);
     }
 
-    public LocaleHelper getLocaleHelper() { return localeHelper; }
+    public LocaleHelper getLocaleHelper() {
+        return localeHelper;
+    }
 
     private void hideFabAnimation() {
         final View fab = findViewById(R.id.activity_main_fab_add_reading);
@@ -621,8 +624,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     public void checkIfEmptyLayout() {
-        LinearLayout emptyLayout = (LinearLayout) findViewById(R.id.activity_main_empty_layout);
-        ViewPager pager = (ViewPager) findViewById(R.id.activity_main_pager);
+        LinearLayout emptyLayout = findViewById(R.id.activity_main_empty_layout);
+        ViewPager pager = findViewById(R.id.activity_main_pager);
 
         if (presenter.isdbEmpty()) {
             pager.setVisibility(View.GONE);
@@ -634,11 +637,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (getResources().getConfiguration().orientation == 1) {
                     // If Portrait choose vertical curved line
-                    ImageView arrow = (ImageView) findViewById(R.id.activity_main_arrow);
+                    ImageView arrow = findViewById(R.id.activity_main_arrow);
                     arrow.setBackground(getResources().getDrawable(R.drawable.curved_line_vertical));
                 } else {
                     // Else choose horizontal one
-                    ImageView arrow = (ImageView) findViewById(R.id.activity_main_arrow);
+                    ImageView arrow = findViewById(R.id.activity_main_arrow);
                     arrow.setBackground((getResources().getDrawable(R.drawable.curved_line_horizontal)));
                 }
             }
@@ -680,7 +683,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         // Check which dialog set the date
         if (view.getTag().equals("fromDateDialog")) {
             exportPresenter.setFromYear(year);
